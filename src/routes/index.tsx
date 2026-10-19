@@ -55,8 +55,8 @@ function Index() {
   function submit(e: FormEvent) {
     e.preventDefault();
     const err: Record<string, string> = {};
-    if (!form.title.trim()) err.title = "Title is required";
-    if (!validUrl(form.url.trim())) err.url = "Enter a full link starting with https://";
+    if (!form.title.trim()) err["title"] = "Title is required";
+    if (!validUrl(form.url.trim())) err["url"] = "Enter a full link starting with https://";
     setErrors(err);
     if (Object.keys(err).length) return;
     const job: Job = { ...form, title: form.title.trim(), url: form.url.trim(), id: crypto.randomUUID(), status: "Saved", createdAt: new Date().toISOString() };
