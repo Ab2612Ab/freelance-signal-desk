@@ -16,7 +16,7 @@ export interface OutreachInput {
   variation: number;
 }
 
-const pick = <T,>(arr: T[], v: number) => arr[((v % arr.length) + arr.length) % arr.length];
+const pick = <T,>(arr: T[], v: number): T => arr[((v % arr.length) + arr.length) % arr.length] as T;
 
 /** Pulls up to n requirement-like sentences straight from the supplied text (no invention). */
 export function keyPoints(text: string, n = 3): string[] {
@@ -29,7 +29,7 @@ export function keyPoints(text: string, n = 3): string[] {
   return Array.from(new Set(ranked)).slice(0, n);
 }
 
-const lower1 = (s: string) => (s ? s[0].toLowerCase() + s.slice(1) : s);
+const lower1 = (s: string) => (s ? (s[0] ?? "").toLowerCase() + s.slice(1) : s);
 const trimDot = (s: string) => s.replace(/[.\s]+$/, "");
 
 export function generateOutreach(i: OutreachInput): string {

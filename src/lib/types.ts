@@ -54,7 +54,7 @@ export type Length = "short" | "medium" | "long";
 
 export interface Draft {
   id: string;
-  leadId?: string;
+  leadId?: string | undefined;
   mode: OutreachMode;
   title: string;
   content: string;
@@ -83,7 +83,7 @@ export interface BriefSection {
 
 export interface Brief {
   id: string;
-  leadId?: string;
+  leadId?: string | undefined;
   input: BriefInput;
   sections: BriefSection[];
   prompt: string;
@@ -105,7 +105,7 @@ export type ActivityType =
 export interface Activity {
   id: string;
   type: ActivityType;
-  leadId?: string;
+  leadId?: string | undefined;
   message: string;
   at: string;
   isDemo?: boolean;
