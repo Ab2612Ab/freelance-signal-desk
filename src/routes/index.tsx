@@ -75,6 +75,7 @@ function Index() {
           <div>
             <h1 className="font-display text-lg font-semibold text-foreground">Freelance Signal Desk</h1>
             <p className="text-xs text-muted-foreground">Find the right projects. Follow up with confidence.</p>
+            <div className="mt-2 flex flex-wrap gap-2"><Button asChild size="sm" variant="outline"><Link to="/leads">Potential clients</Link></Button><Button asChild size="sm" variant="outline"><Link to="/outreach">Outreach Studio</Link></Button></div>
           </div>
         </div>
       </header>
