@@ -21,7 +21,7 @@ export function parseUsdBudget(budget: string): number | null {
   if (!isUsd) return null;
   const m = budget.replace(/,/g, "").match(/(\d+(?:\.\d+)?)\s*(k)?/i);
   if (!m) return null;
-  return parseFloat(m[1]) * (m[2] ? 1000 : 1);
+  return parseFloat(m[1] ?? "0") * (m[2] ? 1000 : 1);
 }
 
 export interface FitBreakdown {
@@ -57,7 +57,7 @@ export function extractFromDescription(text: string) {
   const services = detectServices(text);
   return {
     title,
-    budget: budgetMatch ? budgetMatch[1].trim() : "",
+    budget: budgetMatch ? (budgetMatch[1] ?? "").trim() : "",
     location: detectLocation(text),
     category: services[0] ?? "",
     platform: /upwork/i.test(text) ? "Upwork" : "",
