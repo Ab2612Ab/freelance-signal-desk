@@ -88,12 +88,12 @@ function Index() {
         <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
           <form onSubmit={submit} className="h-fit space-y-3 rounded-xl border bg-card p-5 shadow-card" noValidate>
             <h2 className="font-semibold text-foreground">Add a job</h2>
-            <F label="Title *" id="title" error={errors.title}><Input id="title" value={form.title} onChange={set("title")} placeholder="Shopify store redesign" /></F>
+            <F label="Title *" id="title" error={errors["title"]}><Input id="title" value={form.title} onChange={set("title")} placeholder="Shopify store redesign" /></F>
             <div className="grid grid-cols-2 gap-3">
               <F label="Client" id="client"><Input id="client" value={form.client} onChange={set("client")} /></F>
               <F label="Platform" id="platform"><Input id="platform" value={form.platform} onChange={set("platform")} placeholder="Upwork" /></F>
             </div>
-            <F label="Job post URL" id="url" error={errors.url}><Input id="url" type="url" value={form.url} onChange={set("url")} placeholder="https://" /></F>
+            <F label="Job post URL" id="url" error={errors["url"]}><Input id="url" type="url" value={form.url} onChange={set("url")} placeholder="https://" /></F>
             <F label="Budget" id="budget"><Input id="budget" value={form.budget} onChange={set("budget")} placeholder="$800 fixed" /></F>
             <F label="Notes" id="notes"><Textarea id="notes" rows={3} value={form.notes} onChange={set("notes")} /></F>
             <Button type="submit" className="w-full"><Plus className="h-4 w-4" />Add job</Button>
@@ -158,7 +158,7 @@ function SummaryCard({ label, value, active, onClick }: { label: string; value: 
   );
 }
 
-function F({ label, id, error, children }: { label: string; id: string; error?: string; children: React.ReactNode }) {
+function F({ label, id, error, children }: { label: string; id: string; error?: string | undefined; children: React.ReactNode }) {
   return (
     <div className="space-y-1">
       <label htmlFor={id} className="text-sm font-medium text-foreground">{label}</label>
