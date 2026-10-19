@@ -16,7 +16,7 @@ export interface OutreachInput {
   variation: number;
 }
 
-const pick = <T,>(arr: T[], v: number) => arr[((v % arr.length) + arr.length) % arr.length];
+const pick = <T,>(arr: T[], v: number): T => arr[((v % arr.length) + arr.length) % arr.length] as T;
 
 /** Pulls up to n requirement-like sentences straight from the supplied text (no invention). */
 export function keyPoints(text: string, n = 3): string[] {
