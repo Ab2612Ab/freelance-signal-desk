@@ -29,7 +29,7 @@ export function keyPoints(text: string, n = 3): string[] {
   return Array.from(new Set(ranked)).slice(0, n);
 }
 
-const lower1 = (s: string) => (s ? s[0].toLowerCase() + s.slice(1) : s);
+const lower1 = (s: string) => (s ? (s[0] ?? "").toLowerCase() + s.slice(1) : s);
 const trimDot = (s: string) => s.replace(/[.\s]+$/, "");
 
 export function generateOutreach(i: OutreachInput): string {

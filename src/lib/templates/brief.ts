@@ -63,8 +63,8 @@ export function generateBrief(input: BriefInput): { sections: BriefSection[]; pr
   const sections: BriefSection[] = [
     { key: "summary", title: "Project summary", kind: "fact", items: [input.title || "[Untitled project]", ...(stated.length ? stated : ["[No description supplied]"])] },
     { key: "requirements", title: "Stated requirements", kind: "fact", items: reqs.length ? reqs : ["[None listed separately]"] },
-    { key: "problem", title: "Stated problem", kind: "fact", items: stated.length ? [stated[0]] : ["[Not stated]"] },
-    { key: "audience", title: "Audience", kind: audience[0].startsWith("[") ? "assumption" : "recommendation", items: audience },
+    { key: "problem", title: "Stated problem", kind: "fact", items: stated.length ? [stated[0] ?? "[Not stated]"] : ["[Not stated]"] },
+    { key: "audience", title: "Audience", kind: (audience[0] ?? "").startsWith("[") ? "assumption" : "recommendation", items: audience },
     { key: "services", title: "Relevant services", kind: "recommendation", items: services.length ? services.map(serviceLabel) : ["[Choose a service]"] },
     { key: "pages", title: "Recommended pages", kind: "recommendation", items: Array.from(new Set(pages)) },
     { key: "features", title: "Recommended features", kind: "recommendation", items: features },
