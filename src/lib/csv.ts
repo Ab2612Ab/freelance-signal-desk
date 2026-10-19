@@ -61,25 +61,26 @@ export interface CsvImportResult {
 export function csvToLeads(text: string): CsvImportResult {
   const rows = parseCsv(text.trim());
   if (rows.length < 2) return { valid: [], errors: [{ row: 1, message: "CSV needs a header row and at least one data row." }], unknownHeaders: [] };
-  const headers = rows[0].map((h) => ALIASES[norm(h)]);
-  const unknownHeaders = rows[0].filter((_, i) => !headers[i]);
+  const head = rows[0] ?? [];
+  const headers = head.map((h) => ALIASES[norm(h)]);
+  const unknownHeaders = head.filter((_, i) => !headers[i]);
   if (!headers.includes("title")) return { valid: [], errors: [{ row: 1, message: 'A "title" column is required.' }], unknownHeaders };
   const valid: LeadInput[] = [];
   const errors: CsvImportResult["errors"] = [];
   rows.slice(1).forEach((r, idx) => {
     const rowNo = idx + 2;
-    const o: Record<string, string> = {};
+    const o: Partial<Record<keyof LeadInput, string>> & Record<string, string | undefined> = {};
     headers.forEach((h, i) => { if (h) o[h] = (r[i] ?? "").trim(); });
     const problems: string[] = [];
     if (!o.title) problems.push("missing title");
-    for (const f of ["jobUrl", "website", "contactPage"]) if (o[f] && !isValidUrl(o[f])) problems.push(`invalid ${f}`);
+    for (const f of ["jobUrl", "website", "contactPage"]) if (o[f] && !isValidUrl(o[f] ?? "")) problems.push(`invalid ${f}`);
     if (o.email && !isValidEmail(o.email)) problems.push("invalid email");
-    for (const f of ["dateDiscovered", "followUpDate"]) if (o[f] && !isValidDate(o[f])) problems.push(`${f} must be YYYY-MM-DD`);
+    for (const f of ["dateDiscovered", "followUpDate"]) if (o[f] && !isValidDate(o[f] ?? "")) problems.push(`${f} must be YYYY-MM-DD`);
     const status = (o.status || "new").toLowerCase() as LeadStatus;
     if (!LEAD_STATUSES.includes(status)) problems.push(`unknown status "${o.status}"`);
     if (problems.length) { errors.push({ row: rowNo, message: problems.join(", ") }); return; }
     valid.push({
-      prospect: o.prospect ?? "", title: o.title, platform: o.platform ?? "", jobUrl: o.jobUrl ?? "",
+      prospect: o.prospect ?? "", title: o.title ?? "", platform: o.platform ?? "", jobUrl: o.jobUrl ?? "",
       website: o.website ?? "", contactPage: o.contactPage ?? "", email: o.email ?? "", phone: o.phone ?? "",
       whatsapp: o.whatsapp ?? "", location: o.location ?? "", category: o.category ?? "", budget: o.budget ?? "",
       sourceText: o.sourceText ?? "", dateDiscovered: o.dateDiscovered || today(), status, notes: o.notes ?? "",
